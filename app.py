@@ -73,6 +73,6 @@ def redirect_url(short_id):
             pool.putconn(client)
 
 if __name__ == '__main__':
-    PORT = int(os.getenv('PORT', 8000))
+    PORT = int(os.getenv('PORT', 5001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
 
