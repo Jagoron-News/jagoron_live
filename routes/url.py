@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from controllers.url import handle_generated_new_short_url, handle_get_analytics
 from controllers.allDataControllers import handle_get_analytics_all_likes
 
-url_bp = Blueprint('url', __name__)
+url_bp = Blueprint('/url', __name__)
 
 @url_bp.route('/', methods=['POST', 'OPTIONS'])
 def create_short_url():
