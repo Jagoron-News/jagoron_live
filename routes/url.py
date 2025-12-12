@@ -4,8 +4,10 @@ from controllers.allDataControllers import handle_get_analytics_all_likes
 
 url_bp = Blueprint('url', __name__)
 
-@url_bp.route('/', methods=['POST'])
+@url_bp.route('/', methods=['POST', 'OPTIONS'])
 def create_short_url():
+    if request.method == 'OPTIONS':
+        return '', 200
     return handle_generated_new_short_url()
 
 @url_bp.route('/allData', methods=['GET'])
