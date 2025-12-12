@@ -19,10 +19,28 @@ connectDB()
     });
 
 app.use(express.json());
-app.use("/url", urlRoute);
 
+// Add request logging middleware
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+    next();
+});
+
+// Root redirect
 app.get('/', (req, res) => {
     res.redirect(301, 'https://jagoronnews.com');
+});
+
+// URL routes - must be registered before catch-all route
+app.use("/url", urlRoute);
+
+// Test route to verify Node.js is handling requests
+app.get("/test", (req, res) => {
+    res.json({ 
+        message: "Node.js server is working!", 
+        timestamp: new Date().toISOString(),
+        path: req.path 
+    });
 });
 
 // Handle redirection and record visit

@@ -1,30 +1,35 @@
 const { getDB } = require("../db.js");
 
 const handleGetAnalyticsAllLikes = async (req, res) => {
-    let connection;
     try {
-        const pool = await getDB();
-        connection = await pool.getConnection();
-        console.log("Acquired connection for getting all URLs");
+        const pool = await getDB(); // this should be a pg Pool
 
-        // Fetch all URLs data
-        const findAllUrlsQuery = 'SELECT id, shortId, redirectURL, createdAt, updatedAt FROM urls ORDER BY createdAt DESC';
-        const [urlRows] = await connection.execute(findAllUrlsQuery);
+        console.log("Getting all URLs");
 
-        res.status(200).send({ Success: true, message: 'Fetched all URL data', data: urlRows });
+        const findAllUrlsQuery = `
+            SELECT id, shortid, redirecturl, createdat, updatedat
+            FROM urls
+            ORDER BY createdat DESC
+        `;
+
+        // Use pool.query directly, no need to call .connect()
+        const result = await pool.query(findAllUrlsQuery);
+
+        res.status(200).send({
+            Success: true,
+            message: 'Fetched all URL data',
+            data: result.rows
+        });
 
     } catch (err) {
         console.error("Error in /alldata:", err);
         res.status(500).json({ error: err.message });
-    } finally {
-        if (connection) {
-            console.log("Releasing connection after getting all URLs");
-            connection.release();
-        }
     }
-}
+};
 
 module.exports = {
     handleGetAnalyticsAllLikes,
-}
-
+};
+module.exports = {
+    handleGetAnalyticsAllLikes,
+};
