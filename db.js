@@ -11,7 +11,7 @@ async function connectDB() {
             port: parseInt(process.env.POSTGRES_PORT || "5432", 10),
             user: process.env.POSTGRES_USER || "postgres",
             password: process.env.POSTGRES_PASSWORD || "",
-            database: process.env.POSTGRES_DB || "short_url_db",
+            // database: process.env.POSTGRES_DB || "short_url_db",
             max: 10,
             idleTimeoutMillis: 30000,
         });
